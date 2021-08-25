@@ -3,6 +3,8 @@ import numpy as np
 import scipy as sp
 from collections import Counter
 import os
+from graphs import Graph
+
 
 def main():
     ## to be changed to UI later on
@@ -12,8 +14,14 @@ def main():
     file = "Book2.xlsx"
     sheet = "2020"
     df = readFile(file,sheet)
-    #os.mkdir(sheet)
-    getNullIndices(df)
+
+    graph = Graph(df,sheet)
+    graph.revenueXgroup()
+    
+    #print(df.info())
+    if (getNullIndices(df)):
+        os.mkdir(sheet,exists_ok=True)
+        pass
 
 
 
@@ -47,6 +55,7 @@ def readFile(fName : str, sName : str) -> pd.DataFrame:
                     'Project','TOTAL Amount in Php', 'GP', "% GP", 'Date Received',
                     'PO#','SO# 1st Round','HANA SO#', 'PS#', 'IO#', 'Ticket#', 'SOR#']]
 
+    data.rename(columns={'TOTAL Amount in Php' : 'Revenue'}, inplace = True)
     return data
 
 if __name__ == '__main__':
