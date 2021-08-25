@@ -21,10 +21,14 @@ class Graph(object):
 
     def revenueXgroup(self):
         df = self.data[['Group','Revenue']].copy()
-        filename = "revenueXgroup.png"
+        filename = "Revenue&Group"
+        #exports to a table
         path = os.path.join(self.directory,filename)
-        
-        self.exportTable(df,path)
+        self.exportTable(df,path + "_Table")
+
+
+
+
 
 
     def exportTable(self,df,name):
@@ -34,7 +38,8 @@ class Graph(object):
             width=500,
             height=200,
         )
+        name = name+ '.png'
         if os.path.exists(name):
             os.remove(name)
-        fig.write_image(name, scale=2,)
+        fig.write_image(name, scale=4)
         fig.show()
