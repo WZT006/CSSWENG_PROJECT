@@ -2,6 +2,7 @@ import pandas as pd
 import pathlib
 from graphs import Graph
 import readFile as rf
+import os
 
 #cols_to_use = ['Month','Group','AM','Client','Type','Solution Portfolio','Product',
 #                    'Project','TOTAL Amount in Php', 'GP', "% GP", 'Date Received',
@@ -11,19 +12,20 @@ def main():
     tmp =  input("File name: ")
     file = str(tmp) + ".xlsx"
     month = input("Month (Year for year report),format 'Month' : ")
-    #file = "Book2.xlsx"
-    #sheet = "2020"
-    #month = "Year"
+
+    f = open(file)
+    f = os.path.realpath(f.name)
     
-    df = rf.readFile(file)
+    df = rf.readFile(f)
 
 
     #print(df[['TOTAL Amount in Php', 'GP']])
 
   
     if (getNullIndices(df)):
-        pathlib.Path(tmp).mkdir(parents=True, exist_ok=True)
-        graph = Graph(df,tmp,month)
+        dir = "Output/"+ month
+        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
+        graph = Graph(dir,df,month)
         graph.create_graphs()
 
     print("Finished")

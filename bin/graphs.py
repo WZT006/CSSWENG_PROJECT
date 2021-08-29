@@ -2,17 +2,23 @@ import pandas as pd
 #import numpy as np
 import seaborn as sns
 import dataframe_image as dfi
-#import matplotlib.pyplot as plt
+import plotly.figure_factory as ff
+import plotly.express as px
+import matplotlib.pyplot as plt
 import os
+
 
 
 
 class Graph(object):
     
-    def __init__(self,data,directory,month):
+    def __init__(self,directory,data,month):
         self.directory = directory
         self.data = data
         self.month = month
+        
+    
+
     
 
     ##creates and exports all graphs
@@ -225,20 +231,16 @@ class Graph(object):
 
 
 
-
     def exportTable(self,df,name):
-        
-        # table = pd.DataFrame.from_dict(df)
-        props = 'font-family: "Times New Roman", Times, serif; font-size:3em;'
-        
-        df.sort_index(ascending=False, inplace=True)
-        cm = sns.light_palette("seagreen", as_cmap=True)
-        styled_table = df.style.background_gradient(cmap=cm)
-        styled_table.set_table_styles([{'selector': 'td', 'props': props},
-                            {'selector': 'th.col_heading', 'props': props}])
-        
+
+        fig =  ff.create_table(df)
+
+        fig.update_layout(
+            autosize=False,
+            width=500,
+            height=200,
+        )
         name = name+ '.png'
         if os.path.exists(name):
             os.remove(name)
-    
-        dfi.export(styled_table,name)
+        fig.write_image(name, scale=2,engine = "auto")

@@ -1,5 +1,7 @@
 import pandas as pd
-from collections import Counter
+import pathlib as path
+import os
+
 
 ##Reads the specified file and sheet ,filtering the "unneeded data"
 #Params : 
@@ -10,11 +12,16 @@ def readFile(fName : str) -> pd.DataFrame:
     
     data = removeBorders(fName)
     
+    
+    base_path = os.path.abspath(os.path.dirname(__file__))
+    file_path = os.path.join(base_path,"../Config/CompanyWhiteList.txt")
     #reads companywhitelist
-    with open("Config\CompanyWhiteList.txt", "r", newline="\n") as cWhite:
+    with open(file_path, "r", newline="\n") as cWhite:
         comWhite = cWhite.read().splitlines()     
     cWhite.close()
-    with open("Config\Col_to_Use.txt", "r", newline="\n") as cols:
+
+    file_path = os.path.join(base_path,"../Config/Col_to_Use.txt")
+    with open(file_path, "r", newline="\n") as cols:
         cols_to_use = cols.read().splitlines()     
     cols.close()
     
