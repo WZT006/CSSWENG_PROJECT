@@ -1,8 +1,8 @@
 import pandas as pd
-import numpy as np
-import plotly.figure_factory as ff
-import matplotlib.pyplot as plt
-import kaleido
+#import numpy as np
+import seaborn as sns
+import dataframe_image as dfi
+#import matplotlib.pyplot as plt
 import os
 
 
@@ -13,7 +13,6 @@ class Graph(object):
         self.directory = directory
         self.data = data
         self.month = month
-        colorscale = [[0, '#4d004c'],[.5, '#f2e5ff'],[1, '#ffffff']]
     
 
     ##creates and exports all graphs
@@ -229,17 +228,17 @@ class Graph(object):
 
     def exportTable(self,df,name):
         
-        fig =  ff.create_table(df)
-
-        fig.update_layout(
-            autosize=False,
-            width=500,
-            height=200,
+        # table = pd.DataFrame.from_dict(df)
+        props = 'font-family: "Times New Roman", Times, serif; font-size:3em;'
         
-   
-        )
+        df.sort_index(ascending=False, inplace=True)
+        cm = sns.light_palette("seagreen", as_cmap=True)
+        styled_table = df.style.background_gradient(cmap=cm)
+        styled_table.set_table_styles([{'selector': 'td', 'props': props},
+                            {'selector': 'th.col_heading', 'props': props}])
+        
         name = name+ '.png'
         if os.path.exists(name):
             os.remove(name)
-        fig.write_image(name, scale=2)
-        #fig.show()
+    
+        dfi.export(styled_table,name)
