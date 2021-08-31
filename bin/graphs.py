@@ -1,8 +1,6 @@
 import pandas as pd
-#import numpy as np
+import numpy as np
 import seaborn as sns
-import dataframe_image as dfi
-import plotly.figure_factory as ff
 import plotly.express as px
 import matplotlib.pyplot as plt
 import os
@@ -232,15 +230,18 @@ class Graph(object):
 
 
     def exportTable(self,df,name):
+        fig, ax = plt.subplots()
 
-        fig =  ff.create_table(df)
-
-        fig.update_layout(
-            autosize=False,
-            width=500,
-            height=200,
-        )
         name = name+ '.png'
+        table = ax.table(cellText=df.values, 
+                        colLabels=df.columns, 
+                        loc='center')
+        
+        ax.axis('off')
+        table.set_fontsize(20)
+        table.scale(1,4)                        
         if os.path.exists(name):
             os.remove(name)
-        fig.write_image(name, scale=2,engine = "auto")
+        
+        plt.savefig(name, bbox_inches='tight',pad_inches= 1)
+
