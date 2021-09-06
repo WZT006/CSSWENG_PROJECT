@@ -20,17 +20,20 @@ def readFile(fName : str) -> pd.DataFrame:
         comWhite = cWhite.read().splitlines()     
     cWhite.close()
 
-    file_path = os.path.join(base_path,"../Config/Col_to_Use.txt")
-    with open(file_path, "r", newline="\n") as cols:
-        cols_to_use = cols.read().splitlines()     
-    cols.close()
+    # file_path = os.path.join(base_path,"../Config/Col_to_Use.txt")
+    # with open(file_path, "r", newline="\n") as cols:
+    #     cols_to_use = cols.read().splitlines()     
+    # cols.close()
     
+    cols_to_use = ['Month','Group','AM','Client','Solution Portfolio',
+                   'TOTAL Amount in Php', 'GP', "% GP"]
 
     #Filters read excel file to a dataframe to only include wanted columns
     data = data[cols_to_use]
     #data.rename(columns={'TOTAL Amount in Php' : 'Revenue'}, inplace = True)
     data['TOTAL Amount in Php'] = data['TOTAL Amount in Php'] / 1_000_000
     data['GP'] = data['GP'] / 1_000_000
+
 
     return data
 

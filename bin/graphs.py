@@ -2,7 +2,9 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import plotly.express as px
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
+from matplotlib import style
 import os
 
 
@@ -14,6 +16,8 @@ class Graph(object):
         self.directory = directory
         self.data = data
         self.month = month
+        
+        
         
     
 
@@ -46,11 +50,38 @@ class Graph(object):
         else:
             df = self.data.loc[self.data['Month'] == self.month][['Group','TOTAL Amount in Php','GP']].copy()
         df = df.groupby('Group',as_index=False).sum()
-
+        
         filename = "TOTAL Amount in Php & GP By Group"
         #exports to a table
+        
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
+
+        name = path + "_GRAPH"
+        if os.path.exists(name):
+            os.remove(name)
+
+        ##TODO: add last bar
+        #creates graph
+        sns.set_theme(style="darkgrid")
+        plt.figure(figsize=(20,20)) 
+
+        # ax = sns.barplot(x="Group",y="TOTAL Amount in Php",data = df,errcolor="Gray",errwidth = 0)
+        # ax.bar_label(ax.containers[0])
+        # ax.set_xlabel(None)
+        # ax.set_ylabel(None)
+    
+        ind = np.arange(df['Group'].count())
+        width = 0.25
+        bar1 = plt.bar(ind, df['TOTAL Amount in Php'], width,color = 'teal')
+        bar2 = plt.bar(ind+width, df['GP'], width, color = 'red')
+        plt.xticks( ind+width,df['Group'].values.tolist() )
+        plt.legend( (bar1, bar2), ('REVENUE','GP') )
+        plt.xlabel("Groups")
+        plt.ylabel("Value (Millions)")
+           
+        plt.savefig(name, bbox_inches='tight')
+
 
     def TOTAL_GP_Salesperson(self):
         if (self.month == "Year"):
@@ -233,15 +264,24 @@ class Graph(object):
         fig, ax = plt.subplots()
 
         name = name+ '.png'
+        xls = name+'.xlsx'
+        df = df.round(decimals = 2)
+        floatcol = df.select_dtypes(include=['float64']).columns
+        
+        df[floatcol] = df[floatcol].apply(lambda series: series.apply(lambda value: f"{value:,}"))
         table = ax.table(cellText=df.values, 
                         colLabels=df.columns, 
                         loc='center')
+
         
         ax.axis('off')
         table.set_fontsize(20)
         table.scale(1,4)                        
         if os.path.exists(name):
             os.remove(name)
+        if os.path.exists(xls):
+            os.remove(xls)        
         
         plt.savefig(name, bbox_inches='tight',pad_inches= 1)
+        df.to_excel(xls)
 

@@ -1,34 +1,36 @@
 import pandas as pd
 import pathlib
 from graphs import Graph
-import readFile as rf
+import readFile as rf 
 import os
 
+##TODO: MOVE whitelist to different file
 #cols_to_use = ['Month','Group','AM','Client','Type','Solution Portfolio','Product',
 #                    'Project','TOTAL Amount in Php', 'GP', "% GP", 'Date Received',
 #                    'PO#','SO# 1st Round','HANA SO#', 'PS#', 'IO#', 'Ticket#', 'SOR#']
 def main():
     #To be changed to UI later on
     tmp =  input("File name: ")
+    # tmp = "Book2"
     file = str(tmp) + ".xlsx"
     month = input("Month (Year for year report),format 'Month' : ")
+    # month = "Year"
 
     f = open(file)
     f = os.path.realpath(f.name)
     
     df = rf.readFile(f)
 
-
-    #print(df[['TOTAL Amount in Php', 'GP']])
-
-  
+    
+    
     if (getNullIndices(df)):
         dir = "Output/"+ month
         pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
         graph = Graph(dir,df,month)
         graph.create_graphs()
-
-    print("Finished")
+        print("Finished")
+    else:
+        print("Null values found")
 
 
 ## Checks for any null indices returns which row if there are null values
