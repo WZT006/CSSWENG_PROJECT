@@ -55,32 +55,12 @@ class Graph(object):
         #exports to a table
         
         path = os.path.join(self.directory,filename)
-        self.exportTable(df,path + "_Table")
+        self.exportTable(df,path)
 
-        name = path + "_GRAPH"
-        if os.path.exists(name):
-            os.remove(name)
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
 
-        ##TODO: add last bar
-        #creates graph
-        sns.set_theme(style="darkgrid")
-        plt.figure(figsize=(20,20)) 
-
-        # ax = sns.barplot(x="Group",y="TOTAL Amount in Php",data = df,errcolor="Gray",errwidth = 0)
-        # ax.bar_label(ax.containers[0])
-        # ax.set_xlabel(None)
-        # ax.set_ylabel(None)
-    
-        ind = np.arange(df['Group'].count())
-        width = 0.25
-        bar1 = plt.bar(ind, df['TOTAL Amount in Php'], width,color = 'teal')
-        bar2 = plt.bar(ind+width, df['GP'], width, color = 'red')
-        plt.xticks( ind+width,df['Group'].values.tolist() )
-        plt.legend( (bar1, bar2), ('REVENUE','GP') )
-        plt.xlabel("Groups")
-        plt.ylabel("Value (Millions)")
-           
-        plt.savefig(name, bbox_inches='tight')
 
 
     def TOTAL_GP_Salesperson(self):
@@ -97,6 +77,10 @@ class Graph(object):
         #exports to a table
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
+        
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
 
     def TOTAL_GP_Client(self):
         if (self.month == "Year"):
@@ -112,6 +96,10 @@ class Graph(object):
         #exports to a table
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
+        
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)        
 
     def TOTAL_GP_Solutions(self):
         if (self.month == "Year"):
@@ -127,7 +115,10 @@ class Graph(object):
         #exports to a table
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
-
+        
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
 
 
     def TOTAL_group(self):
@@ -143,17 +134,14 @@ class Graph(object):
         #exports to a table
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
-
-        #xAxis = df.count()['Group']
-        #df.plot.bar()
-        #plt.xlabel('Primary Type')
-        #plt.ylabel('Count')
-        #plt.title('Pokemon count per primary type')
-        #plt.plot()
+        
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
      
     def TOTAL_Salesperson(self):
         if (self.month == "Year"):
-            df = self.data[['TOTAL Amount in Php','AM']].copy()
+            df = self.data[['AM','TOTAL Amount in Php']].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['TOTAL Amount in Php','AM']].copy()
     
@@ -166,9 +154,14 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
+
+
     def TOTAL_Client(self):
         if (self.month == "Year"):
-            df = self.data[['TOTAL Amount in Php','Client']].copy()
+            df = self.data[['Client','TOTAL Amount in Php',]].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['TOTAL Amount in Php','Client']].copy()
     
@@ -181,9 +174,13 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
+
     def TOTAL_Solutions(self):
         if (self.month == "Year"):
-            df = self.data[['TOTAL Amount in Php','Solution Portfolio']].copy()
+            df = self.data[['Solution Portfolio','TOTAL Amount in Php']].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['TOTAL Amount in Php','Solution Portfolio']].copy()
     
@@ -196,11 +193,14 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
 
 
     def GP_Group(self):
         if (self.month == "Year"):
-            df = self.data[['GP','Group']].copy()
+            df = self.data[['Group', 'GP']].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['GP','Group']].copy()
     
@@ -213,9 +213,14 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
+
+
     def GP_Salesperson(self):
         if (self.month == "Year"):
-            df = self.data[['GP','AM']].copy()
+            df = self.data[['AM', 'GP']].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['GP','AM']].copy()
     
@@ -228,9 +233,14 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
+
+
     def GP_Client(self):
         if (self.month == "Year"):
-            df = self.data[['GP','Client']].copy()
+            df = self.data[['Client','GP']].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['GP','Client']].copy()
     
@@ -243,9 +253,14 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
+
+
     def GP_Solutions(self):
         if (self.month == "Year"):
-            df = self.data[['GP','Solution Portfolio']].copy()
+            df = self.data[['Solution Portfolio','GP']].copy()
         else:
             df = self.data.loc[self.data['Month'] == self.month][['GP','Solution Portfolio']].copy()
     
@@ -258,6 +273,9 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
+        colors = ['Green','Red']
+        cols =list(df.columns)
+        self.exportGraph(df,path,cols,colors)
 
 
     def exportTable(self,df,name):
@@ -273,7 +291,6 @@ class Graph(object):
                         colLabels=df.columns, 
                         loc='center')
 
-        
         ax.axis('off')
         table.set_fontsize(20)
         table.scale(1,4)                        
@@ -285,3 +302,33 @@ class Graph(object):
         plt.savefig(name, bbox_inches='tight',pad_inches= 1)
         df.to_excel(xls)
 
+    def exportGraph(self, df : pd.DataFrame, path : str, cols,colors):
+
+        name = path + "_GRAPH"
+        if os.path.exists(name):
+            os.remove(name)
+
+        
+
+        #TODO CHANGE number parameters to make it dynamic (figsize, ind calculation, and width)
+        plt.figure(figsize=(50,50),facecolor='w') 
+        ind = np.arange(df[cols[0]].count())
+        width = 0.25
+        
+        if( len(cols) == 3):
+            bar1 = plt.bar(ind, df[cols[1]], width,color = colors[0])
+            bar2 = plt.bar(ind+width, df[cols[2]], width, color = colors[1])
+            plt.legend( (bar1, bar2), (cols[1],cols[2]),prop={'size': 24})
+            plt.xticks( ind+(width/2),df[cols[0]].values.tolist() )
+            
+        else:
+            bar1 = plt.bar(ind, df[cols[1]], width,color = colors[0])
+            plt.legend( bar1, cols[1],prop={'size': 24})
+            plt.xticks( ind,df[cols[0]].values.tolist())
+            
+        
+        plt.xlabel(cols[0])
+        plt.ylabel("Value (Millions)")
+           
+        plt.savefig(name, bbox_inches='tight',dpi= 100)
+        plt.close()

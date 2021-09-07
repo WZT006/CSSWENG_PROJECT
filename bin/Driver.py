@@ -1,7 +1,8 @@
 import pandas as pd
 import pathlib
 from graphs import Graph
-import readFile as rf 
+import readFile as rf
+import Filter
 import os
 
 ##TODO: MOVE whitelist to different file
@@ -21,9 +22,11 @@ def main():
     
     df = rf.readFile(f)
 
+    # Filter.filter(df)
     
     
     if (getNullIndices(df)):
+        
         dir = "Output/"+ month
         pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
         graph = Graph(dir,df,month)
