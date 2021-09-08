@@ -22,16 +22,18 @@ def main():
     
     df = rf.readFile(f)
 
-    # Filter.filter(df)
+    
     
     
     if (getNullIndices(df)):
-        
-        dir = "Output/"+ month
-        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
-        graph = Graph(dir,df,month)
-        graph.create_graphs()
-        print("Finished")
+        if (Filter.filter(df)):
+            dir = "Output/"+ month
+            pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
+            graph = Graph(dir,df,month)
+            graph.create_graphs()
+            print("Finished")
+        else:
+            print("Invalid Values found")
     else:
         print("Null values found")
 
