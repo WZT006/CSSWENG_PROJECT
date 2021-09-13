@@ -1,1 +1,2 @@
-python bin/Driver.py
+@echo off
+python bin/tempGui.py
