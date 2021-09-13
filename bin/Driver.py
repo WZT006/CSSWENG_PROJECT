@@ -9,12 +9,12 @@ import os
 #cols_to_use = ['Month','Group','AM','Client','Type','Solution Portfolio','Product',
 #                    'Project','TOTAL Amount in Php', 'GP', "% GP", 'Date Received',
 #                    'PO#','SO# 1st Round','HANA SO#', 'PS#', 'IO#', 'Ticket#', 'SOR#']
-def main():
+def Driver(file : str, month : str):
     #To be changed to UI later on
-    tmp =  input("File name: ")
-    # tmp = "Book2"
-    file = str(tmp) + ".xlsx"
-    month = input("Month (Year for year report),format 'Month' : ")
+    # tmp =  input("File name: ")
+    # # tmp = "Book2"
+    # file = str(tmp) + ".xlsx"
+    # month = input("Month (Year for year report),format 'Month' : ")
     # month = "Year"
 
     f = open(file)
@@ -48,7 +48,3 @@ def getNullIndices(df : pd.DataFrame) -> bool:
     else:
         print('There are missing values on entries:', nulls)
         return False
-        
-
-if __name__ == '__main__':
-    main()

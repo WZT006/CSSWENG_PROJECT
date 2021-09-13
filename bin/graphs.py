@@ -323,7 +323,6 @@ class Graph(object):
             
         else:
             bar1 = plt.bar(ind, df[cols[1]], width,color = colors[0])
-            plt.legend( bar1, cols[1],prop={'size': 24})
             plt.xticks( ind,df[cols[0]].values.tolist())
             
         
