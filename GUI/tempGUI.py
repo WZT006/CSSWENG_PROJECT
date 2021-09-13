@@ -1,14 +1,17 @@
 from gooey import Gooey, GooeyParser
 
-@Gooey()
+@Gooey(
+    program_name = "Test GUI")
 def main():
     parser = GooeyParser(description='Test GUI')
 
-    parser.add_argument('file_directory', action='store', help="Location of the Excel File to process", widget='FileChooser')
+    parser.add_argument('file_directory', metavar = "File Directory", action='store', help="Location of the Excel File to process", widget='FileChooser')
     
-    parser.add_argument('timeframe', action='store', help="Month (Year for year report), format 'Month' :")
+    parser.add_argument('timeframe', metavar = "Timeframe", action='store', help="Year (ex. 2020) or specific Month (ex. March, first letter must be capital)")
 
-    parser.parse_args()
+    args = parser.parse_args()
+    print("File chosen: " + args.file_directory)
+    print("Timeframe (Year/Month): " + args.timeframe)
     
 if __name__ == '__main__':
     main()
