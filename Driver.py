@@ -17,14 +17,14 @@ def Driver(file : str, month : str):
     
     df = rf.readFile(f)
     if (getNullIndices(df)):
-        if (Filter.filter(df)):
+        # if (Filter.filter(df)):
             dir = "Output/"+ month
             pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
             graph = Graph(dir,df,month)
             graph.create_graphs()
             print("Finished")
-        else:
-            print('Invalid Values found. Please Check WhiteListLog.txt for more Details.')
+        # else:
+        #     print('Invalid Values found. Please Check WhiteListLog.txt for more Details.')
     else:
         print("Null values found")
 

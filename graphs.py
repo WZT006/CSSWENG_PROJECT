@@ -54,11 +54,9 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path)
 
-        colors = ['Green','Red']
+        colors = ['#892F38','#F6957C']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
-
-
 
     def TOTAL_GP_Salesperson(self):
         if (self.month == "Year"):
@@ -75,7 +73,7 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
         
-        colors = ['Green','Red']
+        colors = ['#1F77B4','#ACD7E5']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
 
@@ -89,12 +87,11 @@ class Graph(object):
 
         #sets filename to save to
         filename = "TOTAL amount in PHP & GP by Client"
-
         #exports to a table
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
         
-        colors = ['Green','Red']
+        colors = ['#CBEAA6','#8190C5']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)        
 
@@ -113,9 +110,11 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
         
-        colors = ['Green','Red']
+        colors = ['#4F772D','#ECF39E']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
+
+
 
 
     def TOTAL_group(self):
@@ -132,7 +131,7 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
         
-        colors = ['Green','Red']
+        colors = ['#656D4A']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
      
@@ -151,10 +150,9 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#012A4A']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
-
 
     def TOTAL_Client(self):
         if (self.month == "Year"):
@@ -171,7 +169,7 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#892F38']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
 
@@ -190,9 +188,10 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#8190C5']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
+
 
 
     def GP_Group(self):
@@ -210,10 +209,9 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#656D4A']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
-
 
     def GP_Salesperson(self):
         if (self.month == "Year"):
@@ -230,10 +228,9 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#012A4A']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
-
 
     def GP_Client(self):
         if (self.month == "Year"):
@@ -250,10 +247,9 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#892F38']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
-
 
     def GP_Solutions(self):
         if (self.month == "Year"):
@@ -270,9 +266,10 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
 
-        colors = ['Green','Red']
+        colors = ['#8190C5']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
+
 
 
     def exportTable(self,df,name):
@@ -305,22 +302,31 @@ class Graph(object):
         if os.path.exists(name):
             os.remove(name)
 
-        
-
+        if 'Client' in df.columns:
+            df = df.sort_values(by='Client', ascending= False)
+            head = df.head(10)
+            if (len(df) > 10):
+                tail = df.tail(len(df) - 10).sum()
+                tail['Client'] = "Others"
+                df = head.append(tail,ignore_index= True)
+                pass
         #TODO CHANGE number parameters to make it dynamic (figsize, ind calculation, and width)
-        plt.figure(figsize=(50,50),facecolor='w') 
+        plt.figure(figsize=(50,20),facecolor='w') 
         ind = np.arange(df[cols[0]].count())
         width = 0.25
         
         if( len(cols) == 3):
             bar1 = plt.bar(ind, df[cols[1]], width,color = colors[0])
             bar2 = plt.bar(ind+width, df[cols[2]], width, color = colors[1])
-            plt.legend( (bar1, bar2), (cols[1],cols[2]),prop={'size': 24})
-            plt.xticks( ind+(width/2),df[cols[0]].values.tolist() )
+            plt.legend( (bar1, bar2), (cols[1],cols[2]),prop={'size': 30})
+            plt.xticks( ind+(width/2),df[cols[0]].values.tolist(),rotation=45)
+            plt.tick_params(axis = 'both', which = 'major', labelsize = 20)
             
         else:
             bar1 = plt.bar(ind, df[cols[1]], width,color = colors[0])
-            plt.xticks( ind,df[cols[0]].values.tolist())
+            plt.xticks( ind,df[cols[0]].values.tolist(),rotation = 45)
+            plt.tick_params(axis = 'both', which = 'major', labelsize = 24)
+            
             
         
         plt.xlabel(cols[0])
