@@ -18,7 +18,7 @@ def Driver(file : str, month : str):
     df, space = rf.readFile(f)
     dir = "Output/"
     pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
-    if (getNullIndices(df)):
+    if (getNullIndices(df,space)):
         if (Filter.filter(df,space)):
             dir = "Output/"+ month
             pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
@@ -32,10 +32,12 @@ def Driver(file : str, month : str):
 
 
 ## Checks for any null indices returns which row if there are null values
-def getNullIndices(df : pd.DataFrame) -> bool:
-    for x in df:
-        nulls = df.loc[df[x].isnull()].index.tolist()
-        nulls = [ 1+ i for i in nulls]
+def getNullIndices(df : pd.DataFrame,space) -> bool:
+    space += 1
+    print("Checking Null Values...")
+    nulls = df[df.isnull().any(axis=1)].index.tolist()
+    nulls = [ space + i for i in nulls]
+
     if(nulls == []):
         return True
     else:

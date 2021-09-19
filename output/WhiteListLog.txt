@@ -1,0 +1,8 @@
+Rows which have values outside the whitelisted values under Client: 
+
+Rows which have values outside the whitelisted values under AM: 38 54 65 174 251 348 369 401 403 455 475 576 593 835 841 882 933 934 936 1019 1023
+
+Rows which have values outside the whitelisted values under Groups: 
+
+Rows which have values outside the whitelisted values under Solution Portfolio: 
+
