@@ -34,8 +34,8 @@ class Graph(object):
         self.GP_Solutions()
 
 
-
     def TOTAL_GP_Group(self):
+        #Filters data depending on Month chosen by user
         if (self.month == "Year"):
             df = self.data[['Group','TOTAL Amount in Php','GP']].copy()
         else:
@@ -44,7 +44,6 @@ class Graph(object):
         
         filename = "TOTAL Amount in Php & GP By Group"
         #exports to a table
-        
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path)
 
@@ -67,7 +66,7 @@ class Graph(object):
         path = os.path.join(self.directory,filename)
         self.exportTable(df,path + "_Table")
         
-        colors = ['#1F77B4','#ACD7E5']
+        colors = ['#FF9E00','#7B2CBF']
         cols =list(df.columns)
         self.exportGraph(df,path,cols,colors)
 
@@ -269,11 +268,13 @@ class Graph(object):
     def exportTable(self,df,name):
         fig, ax = plt.subplots()
 
+        #prepares name and filetype for outputs
         name = name+ '.png'
         xls = name+'.xlsx'
         df = df.round(decimals = 2)
         floatcol = df.select_dtypes(include=['float64']).columns
         
+        #adds ',' to every 3 digits e.g 1000 => 1,000
         df[floatcol] = df[floatcol].apply(lambda series: series.apply(lambda value: f"{value:,}"))
         table = ax.table(cellText=df.values, 
                         colLabels=df.columns, 

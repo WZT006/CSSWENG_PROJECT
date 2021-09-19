@@ -33,7 +33,7 @@ def Driver(file : str, month : str):
 
 ## Checks for any null indices returns which row if there are null values
 def getNullIndices(df : pd.DataFrame,space) -> bool:
-    space += 1
+    space += 2
     print("Checking Null Values...")
     nulls = df[df.isnull().any(axis=1)].index.tolist()
     nulls = [ space + i for i in nulls]

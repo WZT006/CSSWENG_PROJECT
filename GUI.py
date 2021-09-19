@@ -11,8 +11,6 @@ def main():
 
     args = parser.parse_args()
     dv.Driver(str(args.file_directory), str(args.timeframe))
-    # print("File chosen: " + args.file_directory)
-    # print("Timeframe (Year/Month): " + args.timeframe)
     
 if __name__ == '__main__':
     main()
