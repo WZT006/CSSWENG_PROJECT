@@ -10,7 +10,7 @@ def readFile(fName : str) -> pd.DataFrame:
 
     #dataset = pd.read_excel( fName ,skiprows=lambda x: x in [0, 1], usecols=lambda x: 'Unnamed' not in x,sheet_name = sName)
     
-    data = removeBorders(fName)
+    data, space= removeBorders(fName)
     
     
     cols_to_use = ['Month','Group','AM','Client','Solution Portfolio',
@@ -25,7 +25,7 @@ def readFile(fName : str) -> pd.DataFrame:
     #strip spaces
     df_obj = data.select_dtypes(['object'])
     data[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
-    return data
+    return data, space
 
 
 ##Removes variable amount of filler before header column and row
@@ -40,4 +40,4 @@ def removeBorders(fName : str):
     #filter out rows above idx
     df = pd.read_excel(fName,header= idx)
     
-    return df
+    return df , idx

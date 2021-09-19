@@ -15,16 +15,18 @@ def Driver(file : str, month : str):
     f = open(file)
     f = os.path.realpath(f.name)
     
-    df = rf.readFile(f)
+    df, space = rf.readFile(f)
+    dir = "Output/"
+    pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
     if (getNullIndices(df)):
-        # if (Filter.filter(df)):
+        if (Filter.filter(df,space)):
             dir = "Output/"+ month
             pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
             graph = Graph(dir,df,month)
             graph.create_graphs()
             print("Finished")
-        # else:
-        #     print('Invalid Values found. Please Check WhiteListLog.txt for more Details.')
+        else:
+            print('Invalid Values found. Please Check WhiteListLog.txt for more Details.')
     else:
         print("Null values found")
 
@@ -37,6 +39,6 @@ def getNullIndices(df : pd.DataFrame) -> bool:
     if(nulls == []):
         return True
     else:
-        f = open("MissingValues.txt", "w")
+        f = open("Output/MissingValues.txt", "w")
         f.write("Rows which have missing values: " + ' '.join(str(x) for x in nulls)+ "\n\n")
         return False

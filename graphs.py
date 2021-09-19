@@ -14,12 +14,6 @@ class Graph(object):
         self.data = data
         self.month = month
         
-        
-        
-    
-
-    
-
     ##creates and exports all graphs
     #calls specific graph functions
     def create_graphs(self):
