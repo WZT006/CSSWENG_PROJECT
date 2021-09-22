@@ -2,8 +2,7 @@
 import os
 import pandas as pd
 import numpy as np
-def filter(df,space):
-    space = space + 2
+def filter(df):
     base_path = os.path.abspath(os.path.dirname(__file__))
     
     file_path = os.path.join(base_path,"Config/ClientWhiteList.txt")
@@ -14,7 +13,7 @@ def filter(df,space):
     out = list(set(df['Client'].values.tolist()) - set(filter))
     for x in out:
         cInd += df.index[ (df['Client'] == x)].tolist()
-    cInd = [ space + i for i in cInd] 
+    cInd = [ 2 + i for i in cInd] 
 
     file_path = os.path.join(base_path,"Config/AMWhiteList.txt")
     with open(file_path, "r", newline="\n") as cols:
@@ -24,7 +23,7 @@ def filter(df,space):
     out = list(set(df['AM'].values.tolist()) - set(filter))
     for x in out:
         AMInd += df.index[ (df['AM'] == x)].tolist()
-    AMInd = [ space + i for i in AMInd]    
+    AMInd = [ 2 + i for i in AMInd]    
 
 
     file_path = os.path.join(base_path,"Config/GroupWhiteList.txt")
@@ -35,7 +34,7 @@ def filter(df,space):
     out = list(set(df['Group'].values.tolist()) - set(filter))
     for x in out:
         gInd += df.index[ (df['Group'] == x)].tolist()
-    gInd = [ space + i for i in gInd]   
+    gInd = [ 2 + i for i in gInd]   
 
     file_path = os.path.join(base_path,"Config/SolPortWhiteList.txt")
     with open(file_path, "r", newline="\n") as cols:
@@ -46,7 +45,7 @@ def filter(df,space):
     out = list(set(df['Solution Portfolio'].values.tolist()) - set(filter))
     for x in out:
         sInd += df.index[ (df['Solution Portfolio'] == x)].tolist()
-    sInd = [ space + i for i in sInd] 
+    sInd = [ 2 + i for i in sInd] 
 
 
     if (not gInd and not sInd and not AMInd and not cInd):

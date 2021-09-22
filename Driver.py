@@ -3,7 +3,7 @@ import pathlib
 from graphs import Graph
 import readFile as rf
 import Filter
-import sys
+
 import os
 ##TODO: MOVE whitelist to different file
 #cols_to_use = ['Month','Group','AM','Client','Type','Solution Portfolio','Product',
@@ -11,15 +11,12 @@ import os
 #                    'PO#','SO# 1st Round','HANA SO#', 'PS#', 'IO#', 'Ticket#', 'SOR#']
 def Driver(file : str, month : str):
 
-
-    f = open(file)
-    f = os.path.realpath(f.name)
     
-    df, space = rf.readFile(f)
+    df = rf.readFile(file)
     dir = "Output/"
     pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
-    if (getNullIndices(df,space)):
-        if (Filter.filter(df,space)):
+    if (getNullIndices(df)):
+        if (Filter.filter(df)):
             dir = "Output/"+ month
             pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
             graph = Graph(dir,df,month)
@@ -32,11 +29,10 @@ def Driver(file : str, month : str):
 
 
 ## Checks for any null indices returns which row if there are null values
-def getNullIndices(df : pd.DataFrame,space) -> bool:
-    space += 2
+def getNullIndices(df : pd.DataFrame) -> bool:
     print("Checking Null Values...")
     nulls = df[df.isnull().any(axis=1)].index.tolist()
-    nulls = [ space + i for i in nulls]
+    nulls = [ 2 + i for i in nulls]
 
     if(nulls == []):
         return True

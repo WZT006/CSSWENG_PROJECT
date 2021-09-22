@@ -1,6 +1,5 @@
 import pandas as pd
-import pathlib as path
-import os
+import xlwings as xw
 
 
 ##Reads the specified file and sheet ,filtering the "unneeded data"
@@ -10,7 +9,7 @@ def readFile(fName : str) -> pd.DataFrame:
 
     #dataset = pd.read_excel( fName ,skiprows=lambda x: x in [0, 1], usecols=lambda x: 'Unnamed' not in x,sheet_name = sName)
     
-    data, space= removeBorders(fName)
+    data = removeBorders(fName)
     
     
     cols_to_use = ['Month','Group','AM','Client','Solution Portfolio',
@@ -24,18 +23,21 @@ def readFile(fName : str) -> pd.DataFrame:
     #strip spaces
     df_obj = data.select_dtypes(['object'])
     data[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
-    return data, space
+    return data
 
 
 ##Removes variable amount of filler before header column and row
 def removeBorders(fName : str):
-    df = pd.read_excel(fName)
-    ##check which row has "Month"
-    idx = df.loc[(df == 'Month').any(axis=1)].index.values
-    if (not idx): idx = 0 
-    else: idx = idx[0] + 1
+    wb = xw.Book(fName)
+    sheet = wb.sheets[0]
 
-    #filter out rows above idx
-    df = pd.read_excel(fName,header= idx)
-    
-    return df , idx
+    df = sheet[sheet.used_range.address].options(pd.DataFrame, index=False, header=True).value
+    ##check which row has "Month"
+    # idx = df.loc[(df == 'Month').any(axis=1)].index.values
+    # if (not idx): idx = 0 
+    # else: idx = idx[0] + 1
+
+    # #filter out rows above idx
+    # df = pd.read_excel(fName,header= idx)
+    idx = 0
+    return df
